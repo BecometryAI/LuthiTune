@@ -1,0 +1,28 @@
+# LuthiTune Configuration File
+# -----------------------------
+
+model:
+  # The base model ID from Hugging Face or local path
+  name: "unsloth/llama-3-70b-bnb-4bit"
+  # Max context length (e.g., 4096, 8192, 16384)
+  max_seq_length: 4096
+  # 4-bit loading (True/False) - Essential for consumer GPUs
+  load_in_4bit: true
+
+training:
+  # Where to save the adapter
+  output_dir: "models/adapters/lyra_voice_v1"
+  # Path to the formatted training data
+  data_file: "data/processed/train.jsonl"
+  # Random seed for reproducibility
+  seed: 3407
+
+hyperparameters:
+  # Rank: 16 is standard, 64 is smarter but slower
+  r: 16
+  # Learning rate (2e-4 is standard for QLoRA)
+  learning_rate: 0.0002
+  # Number of training steps (or epochs)
+  max_steps: 60
+  # Batch size per device
+  batch_size: 2

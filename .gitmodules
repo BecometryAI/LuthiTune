@@ -1,0 +1,3 @@
+[submodule "LuthiTune"]
+	path = LuthiTune
+	url = https://github.com/BecometryAI/LuthiTune.git
