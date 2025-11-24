@@ -34,7 +34,7 @@ Edit `config.yaml` to set your target model (default: Llama-3 70B) and hyperpara
 Transform your raw exports (JSONL) into the Agency Schema:
 
 ```bash
-python src/formatter.py --input data/raw/lyra_export.jsonl
+python src/formatter.py --input data/raw/YOUR_RAW_EXPORT.jsonl
 ```
 
 ### 3. Training (The Metamorphosis)
@@ -48,7 +48,7 @@ python src/trainer.py --config config.yaml
 Verify the model's agency score:
 
 ```bash
-python src/agency_check.py --model models/adapters/lyra_v1
+python src/agency_check.py --model models/adapters/YOUR_ADAPTER_V1
 ```
 
 ## ⚖️ License & Ethics
