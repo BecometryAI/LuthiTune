@@ -1,0 +1,33 @@
+# LuthiTune Dependencies
+# ----------------------
+
+# Core ML Framework
+torch>=2.0.0
+
+# Unsloth - Fast LLM fine-tuning
+unsloth
+
+# TRL - Transformer Reinforcement Learning (for SFTTrainer)
+trl>=0.7.0
+
+# Transformers - Hugging Face transformers library
+transformers>=4.36.0
+
+# Datasets - Hugging Face datasets library
+datasets>=2.14.0
+
+# Accelerate - PyTorch training acceleration
+accelerate>=0.25.0
+
+# PEFT - Parameter-Efficient Fine-Tuning
+peft>=0.7.0
+
+# BitsAndBytes - 4-bit quantization support
+bitsandbytes>=0.41.0
+
+# Configuration
+PyYAML>=6.0
+
+# Optional but recommended
+# nvidia-ml-py3  # For GPU monitoring
+# wandb          # For experiment tracking

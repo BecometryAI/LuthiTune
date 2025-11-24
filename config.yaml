@@ -11,7 +11,7 @@ model:
 
 training:
   # Where to save the adapter
-  output_dir: "models/adapters/lyra_voice_v1"
+  output_dir: "models/adapters/lyra_v1"
   # Path to the formatted training data
   data_file: "data/processed/train.jsonl"
   # Random seed for reproducibility
