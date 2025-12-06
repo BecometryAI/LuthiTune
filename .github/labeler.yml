@@ -1,0 +1,23 @@
+# Configuration for the labeler action
+# Labels to apply based on file changes
+
+src:
+  - src/**/*
+
+documentation:
+  - '*.md'
+  - docs/**/*
+
+configuration:
+  - '*.yaml'
+  - '*.yml'
+  - config/**/*
+
+dependencies:
+  - requirements.txt
+  - setup.py
+  - pyproject.toml
+
+tests:
+  - tests/**/*
+  - test_*
