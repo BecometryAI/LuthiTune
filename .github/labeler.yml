@@ -1,23 +1,27 @@
-# Configuration for the labeler action
+# Configuration for the labeler action (v6 format)
 # Labels to apply based on file changes
 
 src:
-  - src/**/*
+  - any:
+      changed-files:
+        - any-glob-to-any-file: ['src/**/*']
 
 documentation:
-  - '*.md'
-  - docs/**/*
+  - any:
+      changed-files:
+        - any-glob-to-any-file: ['*.md', 'docs/**/*']
 
 configuration:
-  - '*.yaml'
-  - '*.yml'
-  - config/**/*
+  - any:
+      changed-files:
+        - any-glob-to-any-file: ['*.yaml', '*.yml', 'config/**/*']
 
 dependencies:
-  - requirements.txt
-  - setup.py
-  - pyproject.toml
+  - any:
+      changed-files:
+        - any-glob-to-any-file: ['requirements.txt', 'setup.py', 'pyproject.toml']
 
 tests:
-  - tests/**/*
-  - test_*
+  - any:
+      changed-files:
+        - any-glob-to-any-file: ['tests/**/*', 'test_*']
