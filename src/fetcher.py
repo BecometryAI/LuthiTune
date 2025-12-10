@@ -14,6 +14,9 @@ This module uses Selenium WebDriver with Chrome DevTools Protocol (CDP) to:
 import json
 import time
 import re
+import os
+import sys
+import urllib.parse
 from typing import List, Dict, Optional, Tuple
 from datetime import datetime
 from selenium import webdriver
@@ -31,6 +34,10 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+# Constants for text length thresholds
+MIN_TEXT_LENGTH = 10  # Minimum length for substantial text in nested structures
+MIN_RAW_TEXT_LENGTH = 20  # Minimum length for raw text extraction
 
 
 class NetworkInterceptor:
@@ -231,7 +238,7 @@ class NetworkInterceptor:
         def search_array(arr):
             if isinstance(arr, str):
                 # Found a string, check if it's substantial
-                if len(arr) > 10:  # Arbitrary threshold
+                if len(arr) > MIN_TEXT_LENGTH:
                     return arr
             elif isinstance(arr, list):
                 for item in arr:
@@ -260,7 +267,7 @@ class NetworkInterceptor:
         
         for field in text_fields:
             if field in data and isinstance(data[field], str):
-                if len(data[field]) > 10:  # Arbitrary threshold
+                if len(data[field]) > MIN_TEXT_LENGTH:
                     return data[field]
         
         # Recursive search
@@ -291,7 +298,6 @@ class NetworkInterceptor:
             match = re.search(r'f\.req=([^&]+)', post_data)
             if match:
                 # URL decode and parse
-                import urllib.parse
                 decoded = urllib.parse.unquote(match.group(1))
                 
                 # Try to parse as JSON array
@@ -342,7 +348,7 @@ class NetworkInterceptor:
                 return ''.join(accumulated)
         
         # Return raw text if substantial
-        if len(text) > 20:
+        if len(text) > MIN_RAW_TEXT_LENGTH:
             return text
         
         return None
@@ -593,6 +599,45 @@ class ConversationFetcher:
         logger.info(f"Exported {len(conversations)} conversations to {output_path}")
 
 
+def validate_output_path(path: str) -> str:
+    """
+    Validate and sanitize output file path to prevent path traversal attacks.
+    
+    Args:
+        path: The output file path to validate
+        
+    Returns:
+        Validated absolute path
+        
+    Raises:
+        ValueError: If path contains malicious characters or patterns
+    """
+    # Get absolute path
+    abs_path = os.path.abspath(path)
+    
+    # Check for path traversal attempts
+    if '..' in path or path.startswith('/'):
+        # Only allow if it's an explicit absolute path in safe locations
+        safe_prefixes = [
+            os.path.abspath('data/'),
+            os.path.abspath('/tmp/'),
+            os.path.expanduser('~/'),
+        ]
+        
+        if not any(abs_path.startswith(prefix) for prefix in safe_prefixes):
+            raise ValueError(
+                f"Invalid output path: {path}. "
+                "Path must be relative to current directory or in data/, /tmp/, or home directory."
+            )
+    
+    # Ensure parent directory exists or can be created
+    parent_dir = os.path.dirname(abs_path)
+    if parent_dir and not os.path.exists(parent_dir):
+        os.makedirs(parent_dir, exist_ok=True)
+    
+    return abs_path
+
+
 def main():
     """
     Example usage and CLI interface for the fetcher.
@@ -634,6 +679,13 @@ def main():
     
     args = parser.parse_args()
     
+    # Validate output path
+    try:
+        validated_output = validate_output_path(args.output)
+    except ValueError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+    
     # Create fetcher
     fetcher = ConversationFetcher(headless=args.headless)
     
@@ -646,7 +698,7 @@ def main():
         print("="*60)
         print(f"URL: {args.url}")
         print(f"Duration: {args.duration} seconds")
-        print(f"Output: {args.output}")
+        print(f"Output: {validated_output}")
         print("\nInteract with the AI chat interface in the browser.")
         print("The fetcher will automatically capture conversation pairs.")
         print("="*60 + "\n")
@@ -656,14 +708,14 @@ def main():
         
         # Export results
         if args.format == 'json':
-            fetcher.export_to_json(args.output, include_metadata=True)
+            fetcher.export_to_json(validated_output, include_metadata=True)
         else:
-            fetcher.export_to_jsonl(args.output, include_metadata=True)
+            fetcher.export_to_jsonl(validated_output, include_metadata=True)
         
         print("\n" + "="*60)
         print("Capture complete!")
         print(f"Captured {len(fetcher.get_captured_conversations())} conversation pairs")
-        print(f"Saved to: {args.output}")
+        print(f"Saved to: {validated_output}")
         print("="*60 + "\n")
         
     except KeyboardInterrupt:
@@ -671,9 +723,9 @@ def main():
         # Still export what we have
         if fetcher.get_captured_conversations():
             if args.format == 'json':
-                fetcher.export_to_json(args.output, include_metadata=True)
+                fetcher.export_to_json(validated_output, include_metadata=True)
             else:
-                fetcher.export_to_jsonl(args.output, include_metadata=True)
+                fetcher.export_to_jsonl(validated_output, include_metadata=True)
     
     finally:
         fetcher.stop()
