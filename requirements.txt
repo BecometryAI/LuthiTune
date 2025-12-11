@@ -28,9 +28,6 @@ bitsandbytes>=0.41.0
 # Configuration
 PyYAML>=6.0
 
-# Data Collection / Browser Automation
-selenium>=4.15.0
-
 # Optional but recommended
 # nvidia-ml-py3  # For GPU monitoring
 # wandb          # For experiment tracking

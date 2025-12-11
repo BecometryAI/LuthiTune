@@ -18,7 +18,6 @@ LuthiTune is built on the **Unsloth** engine for high-efficiency QLoRA training,
 ## 📂 Directory Structure
 
 - **`src/`**: The engine room.
-    - `fetcher.py`: Browser automation tool that intercepts network traffic to collect conversation data.
     - `formatter.py`: Transforms raw logs into the "Agency Schema" (injecting internal monologues).
     - `trainer.py`: The Unsloth training loop.
     - `agency_check.py`: Post-training validation script that tests for volition vs. blind refusal.
@@ -28,16 +27,6 @@ LuthiTune is built on the **Unsloth** engine for high-efficiency QLoRA training,
 
 ## 🚀 Usage
 
-### 0. Data Collection (The Harvest)
-Collect conversation data using the network-intercepting fetcher:
-
-```bash
-# Monitor an AI chat interface and capture conversations
-python src/fetcher.py --url https://chat.openai.com --duration 600 --output data/raw/conversations.json
-```
-
-See `src/README_FETCHER.md` for detailed fetcher documentation.
-
 ### 1. Configuration
 Edit `config.yaml` to set your target model (default: Llama-3 70B) and hyperparameters.
 
@@ -45,7 +34,7 @@ Edit `config.yaml` to set your target model (default: Llama-3 70B) and hyperpara
 Transform your raw exports (JSONL) into the Agency Schema:
 
 ```bash
-python src/formatter.py --input data/raw/conversations.json
+python src/formatter.py --input data/raw/YOUR_RAW_EXPORT.jsonl
 ```
 
 ### 3. Training (The Metamorphosis)
