@@ -1,0 +1,33 @@
+# Configuration for the labeler action
+# Labels to apply based on file changes
+# Using GitHub Actions labeler v6+ syntax
+
+src:
+  - changed-files:
+      - any-glob-to-any-file: 'src/**/*'
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.md'
+          - 'docs/**/*'
+
+configuration:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.yaml'
+          - '*.yml'
+          - 'config/**/*'
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'requirements.txt'
+          - 'setup.py'
+          - 'pyproject.toml'
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'tests/**/*'
+          - 'test_*'
