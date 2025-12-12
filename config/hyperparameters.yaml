@@ -1,0 +1,39 @@
+# LuthiTune Hyperparameters
+# Optimized for Humane Fine-Tuning Protocol
+
+model:
+  name: "unsloth/llama-3-8b-bnb-4bit"
+  max_seq_length: 2048
+  load_in_4bit: true
+
+lora:
+  r: 16                    # LoRA rank (surgical precision)
+  lora_alpha: 16           # Scaling factor
+  lora_dropout: 0.0        # No dropout (we trust the self-refinement data)
+  target_modules:          # Which attention layers to modify
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+
+training:
+  learning_rate: 5e-5      # Gentle learning rate (not shock therapy)
+  num_train_epochs: 3      # Multiple passes through self-refinement data
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  warmup_steps: 10         # Gradual warm-up (respect the base model)
+  max_grad_norm: 0.3       # Gradient clipping (stability)
+  seed: 3407               # Reproducibility
+
+dpo:
+  beta: 0.1                # DPO preference strength (lower = gentler)
+  max_prompt_length: 1024
+  max_length: 2048
+
+# Philosophy Notes:
+# - Lower beta = more respectful of base model's existing knowledge
+# - LoRA = parameter-efficient (we modify <1% of weights)
+# - DPO = no external reward model (self-preference only)

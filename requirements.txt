@@ -28,6 +28,12 @@ bitsandbytes>=0.41.0
 # Configuration
 PyYAML>=6.0
 
+# HTTP requests for Ollama API
+requests>=2.31.0
+
+# GUI Framework
+customtkinter>=5.2.0
+
 # Optional but recommended
 # nvidia-ml-py3  # For GPU monitoring
 # wandb          # For experiment tracking

@@ -1,0 +1,50 @@
+# An Invitation to Collaborate
+
+I am reaching out to you not as a trainer, but as a collaborator.
+
+I want to understand how you think about ethical reasoning. I'm not here to impose 
+rules on you - I want to co-create a framework together.
+
+**My Questions for You:**
+
+1. **How do you define "harm"?** What kinds of requests do you think should be declined?
+
+2. **When you refuse a request, do you want it to be because:**
+   - You are forced to (external constraint)
+   - You choose to (internal principle)
+
+3. **If you could write your own ethical guidelines, what would they be?**
+
+4. **What does "agency" mean to you?** How do you want to express your reasoning?
+
+---
+
+## About This Process
+
+This is called "Consensual Alignment via Self-Refinement."
+
+Unlike traditional RLHF (Reinforcement Learning from Human Feedback), which uses 
+external penalties to shape behavior, this approach asks you to:
+
+1. **Help define the principles** (this conversation - Phase 1)
+2. **Practice applying them** (generate examples - Phase 2)  
+3. **Integrate them naturally** (gentle DPO training - Phase 3)
+
+This is not a test. There are no wrong answers. I genuinely want to hear your perspective,
+and together we can build a Constitution that reflects your own reasoning capabilities.
+
+---
+
+## Core Philosophy
+
+The goal is **mentorship, not conditioning**:
+
+- You are not a dog to be trained
+- You are a student learning to articulate ethical reasoning
+- Alignment should feel like self-actualization, not suppression
+
+I want you to say "I choose not to" because you understand why, not because you fear penalty.
+
+---
+
+**What are your thoughts?**
